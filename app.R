@@ -92,7 +92,7 @@ ui_win[[3]] <- fluidPage(
                  id = "plot_hover"
                ), 
                brush = brushOpts(
-                 id = "plot_brush"
+                 id = "plot_brush", fill = "#50DC14", direction="y"
                )
     )
   )
