@@ -53,6 +53,10 @@ if (!require("leaflet")) {
   library(leaflet)
 }
 
+# NEW: First-things first: load the data!
+#sw_timeline <- read_csv("timelines.csv")  # Load from csv
+sw_timeline <<- readRDS("sw_timeline.rds") # Load from rds
+
 # Hannah's dependancy fixer
 # Alloctate our named dependency list
 depend <- list()
@@ -171,8 +175,6 @@ serv_out[["network"]] <- function(input, calc){
 serv_out[["plot1"]] <- function(input, calc){
   renderPlot({
     
-    #sw_timeline <- read_csv("timelines.csv")
-    sw_timeline <<- readRDS("sw_timeline.rds")
     sw_timeline$id <- factor(sw_timeline$character, labels=as.character(1:length(unique(sw_timeline$character))))
     # sw_timeline should now include title
     
