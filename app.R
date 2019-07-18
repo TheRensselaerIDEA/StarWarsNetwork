@@ -114,7 +114,12 @@ serv_out[["network"]] <- function(input, calc){
   renderVisNetwork({
     
     # filter the data based on the selection
-    new_timeline <- sw_timeline %>% filter(between(timecode, input$plot_brush$ymin, input$plot_brush$ymax))
+    # NEW: If user hasn't made a selection, choose Episode 4 (the original Star Wars)
+    if(!is.null(input$plot_brush)) {
+         new_timeline <- sw_timeline %>% filter(between(timecode, input$plot_brush$ymin, input$plot_brush$ymax))
+      } else {
+         new_timeline <- sw_timeline %>% filter(between(timecode, 3, 4))
+      }
     
     new_timeline$timecode <- round(1000*new_timeline$timecode)
     new_timeline <- new_timeline %>% distinct()
