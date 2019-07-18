@@ -176,6 +176,16 @@ serv_out[["plot1"]] <- function(input, calc){
     sw_timeline$id <- factor(sw_timeline$character, labels=as.character(1:length(unique(sw_timeline$character))))
     # sw_timeline should now include title
     
+    # Set up horizontal lines denoting select region for plots
+    if(!is.null(input$plot_brush)) {
+      intercept1 <- input$plot_brush$ymin
+      intercept2 <- input$plot_brush$ymax
+    } else {
+      # Default selection region is Episode 4
+      intercept1 <- 3
+      intercept2 <- 4
+    }
+
     # Basic violin plot
     ggplot(sw_timeline, aes(x=character, y=timecode)) + 
       geom_violin(adjust = .1, scale = "count", aes(fill = factor(id))) +
@@ -194,6 +204,9 @@ serv_out[["plot1"]] <- function(input, calc){
             axis.text.x = element_text(colour = "white",face="bold"),
             axis.text.y = element_text(colour = "white")) + 
       scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7)) + 
+      geom_hline(aes(yintercept=intercept1), color = "blue") + # Select region (min)
+      geom_hline(aes(yintercept=intercept2), color = "blue") + # Select region (max)
+
       ylab("EPISODE") # for the y axis label
     
   })  
