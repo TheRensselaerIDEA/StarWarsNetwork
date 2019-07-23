@@ -53,7 +53,7 @@ if (!require("leaflet")) {
   library(leaflet)
 }
 
-# NEW: First-things first: load the data!
+# First-things first: load the data!
 #sw_timeline <- read_csv("timelines.csv")  # Load from csv
 sw_timeline <<- readRDS("sw_timeline.rds") # Load from rds
 
@@ -96,7 +96,7 @@ ui_win[[3]] <- fluidPage(
                  id = "plot_hover"
                ), 
                brush = brushOpts(
-                 id = "plot_brush", fill = "#50DC14", direction="y"
+                 id = "plot_brush", fill = "#50DC14", direction = "y"
                )
     )
   )
@@ -120,10 +120,10 @@ serv_out[["network"]] <- function(input, calc){
     # filter the data based on the selection
     # NEW: If user hasn't made a selection, choose Episode 4 (the original Star Wars)
     if(!is.null(input$plot_brush)) {
-         new_timeline <- sw_timeline %>% filter(between(timecode, input$plot_brush$ymin, input$plot_brush$ymax))
-      } else {
-         new_timeline <- sw_timeline %>% filter(between(timecode, 3, 4))
-      }
+      new_timeline <- sw_timeline %>% filter(between(timecode, input$plot_brush$ymin, input$plot_brush$ymax))
+    } else {
+      new_timeline <- sw_timeline %>% filter(between(timecode, 3, 4))
+    }
     
     new_timeline$timecode <- round(1000*new_timeline$timecode)
     new_timeline <- new_timeline %>% distinct()
@@ -175,10 +175,11 @@ serv_out[["network"]] <- function(input, calc){
 serv_out[["plot1"]] <- function(input, calc){
   renderPlot({
     
+    #sw_timeline <- read_csv("timelines.csv")
+    #sw_timeline <<- readRDS("sw_timeline.rds")
     sw_timeline$id <- factor(sw_timeline$character, labels=as.character(1:length(unique(sw_timeline$character))))
     # sw_timeline should now include title
     
-    # Set up horizontal lines denoting select region for plots
     if(!is.null(input$plot_brush)) {
       intercept1 <- input$plot_brush$ymin
       intercept2 <- input$plot_brush$ymax
@@ -187,7 +188,7 @@ serv_out[["plot1"]] <- function(input, calc){
       intercept1 <- 3
       intercept2 <- 4
     }
-
+    
     # Basic violin plot
     ggplot(sw_timeline, aes(x=character, y=timecode)) + 
       geom_violin(adjust = .1, scale = "count", aes(fill = factor(id))) +
@@ -206,9 +207,8 @@ serv_out[["plot1"]] <- function(input, calc){
             axis.text.x = element_text(colour = "white",face="bold"),
             axis.text.y = element_text(colour = "white")) + 
       scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7)) + 
-      geom_hline(aes(yintercept=intercept1), color = "blue") + # Select region (min)
-      geom_hline(aes(yintercept=intercept2), color = "blue") + # Select region (max)
-
+      geom_hline(aes(yintercept=intercept1), color = "yellow") + # Select region (min)
+      geom_hline(aes(yintercept=intercept2), color = "yellow") + # Select region (max)
       ylab("EPISODE") # for the y axis label
     
   })  
