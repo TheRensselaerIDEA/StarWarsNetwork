@@ -1,22 +1,31 @@
+if (!require("rlang")) {
+  install.packages("rlang", dependencies = TRUE)
+  library(rlang)
+}
 
 if (!require("httpuv")) {
-  install.packages("https://cran.r-project.org/src/contrib/httpuv_1.5.1.tar.gz", repo=NULL, type="source")
+  install.packages("httpuv", dependencies = TRUE)
   library(httpuv)
 }
 
 if (!require("shiny")) {
-  install.packages("https://cran.r-project.org/src/contrib/shiny_1.3.2.tar.gz", repo=NULL, type="source")
+  install.packages("shiny", dependencies = TRUE)
   library(shiny)
 }
 
+if (!require("devtools")) {
+  install.packages("devtools", dependencies = TRUE)
+  library(devtools)
+}
+
 if (!require("mwshiny")) {
-  install.packages("https://cran.r-project.org/src/contrib/mwshiny_0.1.0.tar.gz", repo=NULL, type="source")
+  devtools::install_git("https://github.com/delosh653/mwshiny")
   library(mwshiny)
 }
 
 if (!require("visNetwork")) {
   devtools::install_git("https://github.com/datastorm-open/visNetwork")
-  library(tidyverse)
+  library(visNetwork)
 }
 
 if (!require("readr")) {
@@ -28,26 +37,26 @@ if (!require("htmlwidgets")) {
   install.packages("htmlwidgets", dependencies = TRUE)
   library(htmlwidgets)
 }
-if (!require("tidyverse")) {
-  install.packages("tidyverse", dependencies = TRUE)
-  library(tidyverse)
-}
+
 if (!require("plyr")) {
   install.packages("plyr", dependencies = TRUE)
   library(plyr)
 }
+
+if (!require("dplyr")) {
+  install.packages("dplyr", dependencies = TRUE)
+  library(dplyr)
+}
+
 if (!require("ggplot2")) {
   install.packages("ggplot2", dependencies = TRUE)
   library(ggplot2)
-}
-if (!require("htmlwidgets")) {
-  install.packages("htmlwidgets", dependencies = TRUE)
-  library(htmlwidgets)
 }
 if (!require("igraph")) {
   install.packages("igraph", dependencies = TRUE)
   library(igraph)
 }
+# Note sure what function we're using from Leaflet...
 if (!require("leaflet")) {
   install.packages("leaflet", dependencies = TRUE)
   library(leaflet)
@@ -59,12 +68,12 @@ sw_timeline <<- readRDS("sw_timeline.rds") # Load from rds
 
 # Hannah's dependancy fixer
 # Alloctate our named dependency list
-depend <- list()
+#depend <- list()
 
 # names of the list correspond to the package we want to import
 # we give each of them the value of a vector of strings corresponding to the specific scripts we want to import
-depend[["htmlwidgets"]] <- c("www/htmlwidgets.js")
-depend[["visNetwork"]] <- c("htmlwidgets/lib/vis/vis.css", "htmlwidgets/lib/vis/vis.min.js", "htmlwidgets/visNetwork.js")
+#depend[["htmlwidgets"]] <- c("www/htmlwidgets.js")
+#depend[["visNetwork"]] <- c("htmlwidgets/lib/vis/vis.css", "htmlwidgets/lib/vis/vis.min.js", "htmlwidgets/visNetwork.js")
 
 # vector of strings that are the names of my windows
 win_titles <- c("Controller","Floor", "Wall")
@@ -72,17 +81,17 @@ win_titles <- c("Controller","Floor", "Wall")
 ui_win <- list()
 
 # first we add what we want to see in the controller to the list
-ui_win[[1]] <- fluidPage(
+ui_win[["Controller"]] <- fluidPage(
   titlePanel("StarWars Network Explorer: Controller")
 )
 
 # then we add what we want to see in the Floor section
-ui_win[[2]] <- fillPage(
+ui_win[["Floor"]] <- fillPage(
 #  titlePanel("Visnetwork Explorer: Network"),
   visNetworkOutput(outputId="network", width = "100%", height = "900px")
 )
 
-ui_win[[3]] <- fluidPage(
+ui_win[["Wall"]] <- fluidPage(
   fluidRow(
     # In a plotOutput, passing values for click, dblclick, hover, or brush
     # will enable those interactions. (Only watch brush for StarWars)
@@ -224,4 +233,5 @@ serv_out[["brush_info"]] <- function(input, calc){
 }
 
 # NEW: Run with dependencies 
-mwsApp(win_titles, ui_win, serv_calc, serv_out, depend)
+#mwsApp(win_titles, ui_win, serv_calc, serv_out, depend)
+mwsApp(ui_win, serv_calc, serv_out)
