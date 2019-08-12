@@ -221,7 +221,11 @@ serv_out[["plot1"]] <- function(input, calc){
 		
 		#inter1 and  inter2 are used for zooming in and out
 		if(is.null(input$plot_dblclick)&&!is.null(input$plot_brush)){
-			if(temp1==intercept1 && temp2==intercept2){
+			#print(temp1)
+			#print(intercept1)
+			#print(inter1)
+			#print("-----")
+			if(abs(temp1-intercept1)<0.01 && abs(temp2-intercept2)<0.01){
 
 			}
 			else{
