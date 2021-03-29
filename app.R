@@ -99,7 +99,7 @@ ui_win[["Wall"]] <- fluidPage(
   fluidRow(
     # In a plotOutput, passing values for click, dblclick, hover, or brush
     # will enable those interactions. (Only watch brush for StarWars)
-    plotOutput("plot1", height = 800,  # normally 800!
+    plotOutput("plot1", #height = 800,
                # Equivalent to: click = clickOpts(id = "plot_click")
                click = "plot_click",
                dblclick = dblclickOpts(
@@ -257,7 +257,7 @@ serv_out[["plot1"]] <- function(input, calc){
       geom_hline(aes(yintercept=intercept2), color = "yellow") + # Select region (max)
       ylab("EPISODE") # for the y axis label
     
-  }, width=6400, height=800)  
+  }, width="auto", height="auto")  
 }
 
 serv_out[["character_info"]] <- function(input, calc){
