@@ -95,11 +95,11 @@ ui_win[["Floor"]] <- fillPage(
 )
 
 # Then the Wall (the character timelines)
-ui_win[["Wall"]] <- fluidPage(
-  fluidRow(
+ui_win[["Wall"]] <- fillPage(  # JSE 29 Mar
+  fillRow(
     # In a plotOutput, passing values for click, dblclick, hover, or brush
     # will enable those interactions. (Only watch brush for StarWars)
-    plotOutput("plot1", #height = 800,
+    plotOutput("plot1", height = "100%",
                # Equivalent to: click = clickOpts(id = "plot_click")
                click = "plot_click",
                dblclick = dblclickOpts(
