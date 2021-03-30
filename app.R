@@ -91,7 +91,7 @@ ui_win[["Script"]] <-   fluidPage(
 # Then the Floor (Character networks)
 ui_win[["Floor"]] <- fillPage(
 #  titlePanel("Visnetwork Explorer: Network"),
-  visNetworkOutput(outputId="network", width = "100%", height = "1000px")
+  visNetworkOutput(outputId="network", width = "100%", height = "100%")  # JSE 30 Mar
 )
 
 # Then the Wall (the character timelines)
